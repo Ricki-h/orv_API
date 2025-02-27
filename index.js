@@ -54,11 +54,7 @@ app.post('/characters', upload.fields([
                 img2:          img2url
             }
         })
-        res.status(201).json({
-            ...req.body,
-            img1: img1url,
-            img2: img2url
-        })
+        res.status(201)
 })
 
 app.delete('/characters/:id', async (req, res) => {
