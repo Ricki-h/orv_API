@@ -12,7 +12,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use('/imagens', express.static(path.join(__dirname, 'imgs')));
+app.use('/imagens', express.static('imgs'));
 const port = process.env.PORT || 3000
 const storage = multer.diskStorage( {
     destination: function (req, file, cb) {
