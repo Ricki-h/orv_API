@@ -12,7 +12,7 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use('/imagens', express.static('imgs'))
+app.use('/imagens', express.static(path.join(__dirname, 'imgs')));
 const port = process.env.PORT || 3000
 const storage = multer.diskStorage( {
     destination: function (req, file, cb) {
@@ -42,8 +42,8 @@ app.post('/characters', upload.fields([
     { name: 'img2', maxCount: 1},
     ]), async (req, res) => {
         let baseurl = `https://${req.get('host')}`
-        let img1url = req.files['img1'] ? `${baseurl}/imgs/${req.files['img1'][0].filename}`: null
-        let img2url = req.files['img2'] ? `${baseurl}/imgs/${req.files['img2'][0].filename}`: null
+        let img1url = req.files['img1'] ? `${baseurl}/imagens/${req.files['img1'][0].filename}`: null
+        let img2url = req.files['img2'] ? `${baseurl}/imagens/${req.files['img2'][0].filename}`: null
 
         await prisma.character.create({
             data: {
