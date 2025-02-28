@@ -1,11 +1,17 @@
 import express from "express";
 import multer from "multer"
 import { PrismaClient } from '@prisma/client'
+import cors from 'cors'
 import path from 'path'
 
 const prisma = new PrismaClient()
 const app = express()
 app.use(express.json())
+app.use(cors({
+    origin: 'https://orvapi.netlify.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use('/imagens', express.static('imgs'))
 const port = process.env.PORT || 3000
 const storage = multer.diskStorage( {
@@ -13,7 +19,7 @@ const storage = multer.diskStorage( {
         cb(null, path.resolve('imgs'))
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname + '-' + Date.now())
+        cb(null, Date.now() + '-' + file.originalname)
     }
 })
 const upload = multer({ storage: storage, fileFilter: function (req, file, cb) {
@@ -49,7 +55,7 @@ app.post('/characters', upload.fields([
                 img2:          img2url
             }
         })
-        res.status(201)
+        res.status(201).json({ message: 'Personagem criado com sucesso!' });
 })
 
 app.delete('/characters/:id', async (req, res) => {
