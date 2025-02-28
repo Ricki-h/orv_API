@@ -61,6 +61,7 @@ app.delete('/characters/:id', async (req, res) => {
     await prisma.character.delete({
         where: { id: req.params.id }
     })
+    res.status(200).send('Deletado')
 })
 
 app.listen(port)
