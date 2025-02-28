@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer"
 import { PrismaClient } from '@prisma/client'
 import cors from 'cors'
+import path from 'path'
 
 const prisma = new PrismaClient()
 const app = express()
@@ -11,14 +12,14 @@ app.use(cors({
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
 }))
-app.use(express.static('public'))
+app.use('/imagens', express.static('imgs'))
 const port = process.env.PORT || 3000
 const storage = multer.diskStorage( {
     destination: function (req, file, cb) {
-        cb(null, './public/imgs')
+        cb(null, path.resolve('imgs'))
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now())
+        cb(null, file.originalname + '-' + Date.now())
     }
 })
 const upload = multer({ storage: storage, fileFilter: function (req, file, cb) {
