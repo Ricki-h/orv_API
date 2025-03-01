@@ -38,8 +38,14 @@ app.get('/characters', async (req, res) => {
     res.status(200).json(characters)
 })
 app.get('/characters/:id', async (req, res) => {
-    let character = await prisma.character.findMany()
-    res.status(200).json(character)
+    const { id } = req.params
+    let character = await prisma.character.findUnique({
+        where: { id: id }
+    })
+    if (!character) {
+        return res.status(404).json({ error: 'Personagem não encontrado' });
+    }
+    res.status(200).json(character);
 })
 app.post('/characters', upload.fields([
     { name: 'img1', maxCount: 1},
