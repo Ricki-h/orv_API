@@ -19,7 +19,7 @@ const storage = multer.diskStorage( {
         cb(null, path.resolve('imgs'))
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname)
+        cb(null, file.originalname)
     }
 })
 const upload = multer({ storage: storage, fileFilter: function (req, file, cb) {
