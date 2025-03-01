@@ -37,6 +37,10 @@ app.get('/characters', async (req, res) => {
     let characters = await prisma.character.findMany()
     res.status(200).json(characters)
 })
+app.get('/characters/:id', async (req, res) => {
+    let character = await prisma.character.findMany()
+    res.status(200).json(character)
+})
 app.post('/characters', upload.fields([
     { name: 'img1', maxCount: 1},
     { name: 'img2', maxCount: 1},
